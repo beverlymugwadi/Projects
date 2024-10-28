@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: burlywood;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 1rem;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 2rem;
+    text-align: center;
+}
+
+section {
+    margin: 2rem 0;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+form input, form select, form button {
+    display: block;
+    margin: 0.5rem auto;
+    padding: 0.5rem;
+    width: 80%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+form button {
+    background-color: burlywood;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ccc;
+}
+
+#add-expense {
+    background: linear-gradient(to bottom right, #ffefba, #ffffff);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+}
+
+#add-expense h2 {
+    color: #ff9800;
+    margin-bottom: 1rem;
+}
+
+#expense-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#add-expense {
+    background: linear-gradient(to bottom right, rgba(255, 239, 186, 0.8), rgba(255, 255, 255, 0.8)), url('image.png') center/cover no-repeat;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+#add-expense h2 {
+    color: #ff9800;
+    margin-bottom: 1rem;
+}
+
+#expense-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 10px;
+}
+
