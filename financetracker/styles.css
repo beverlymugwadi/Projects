@@ -78,14 +78,12 @@ li {
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
     max-width: 600px;
     margin: auto;
 }
 
 #add-expense h2 {
     color: #ff9800;
-    margin-bottom: 1rem;
 }
 
 #expense-form {
@@ -93,30 +91,3 @@ li {
     flex-direction: column;
     align-items: center;
 }
-
-#add-expense {
-    background: linear-gradient(to bottom right, rgba(255, 239, 186, 0.8), rgba(255, 255, 255, 0.8)), url('image.png') center/cover no-repeat;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 600px;
-    margin: auto;
-    position: relative;
-    overflow: hidden;
-}
-
-#add-expense h2 {
-    color: #ff9800;
-    margin-bottom: 1rem;
-}
-
-#expense-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 1rem;
-    border-radius: 10px;
-}
-
