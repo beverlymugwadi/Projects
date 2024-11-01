@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morning Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-100 min-h-screen flex items-center justify-center">
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white shadow-2xl rounded-2xl overflow-hidden max-w-md mx-auto">
+            <!-- Sign In Section -->
+            <div id="sign-in-section" class="p-6">
+                <div class="text-center mb-6">
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">Morning Companion</h1>
+                    <p class="text-gray-500">Your personal reminder and productivity assistant</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <input 
+                        type="text" 
+                        id="username" 
+                        placeholder="Username" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="Password" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                    <button 
+                        id="sign-in-btn"
+                        class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+                    >
+                        Sign In
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Section (Initially Hidden) -->
+            <div id="dashboard-section" style="display:none;" class="p-6">
+                <!-- Alarm Setting Section -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Set Your Alarm</h2>
+                    <div class="flex space-x-3">
+                        <input 
+                            type="time" 
+                            id="alarm-time" 
+                            class="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                        <button 
+                            id="set-alarm-btn"
+                            class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                        >
+                            Set Alarm
+                        </button>
+                    </div>
+                    <p id="alarm-status" class="mt-2 text-sm text-gray-600"></p>
+                </div>
+
+                <!-- Tasks/Reminders Section -->
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Tasks & Reminders</h2>
+                    <div class="space-y-4">
+                        <input 
+                            type="text" 
+                            id="task-input" 
+                            placeholder="Enter a task" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        >
+                        <input 
+                            type="datetime-local" 
+                            id="task-time" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        >
+                        <button 
+                            id="add-task-btn"
+                            class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-300"
+                        >
+                            Add Task
+                        </button>
+                    </div>
+
+                    <!-- Tasks List -->
+                    <ul id="tasks-list" class="mt-4 space-y-2"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive Feature Implementation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sign In Functionality
+            const signInButton = document.getElementById('sign-in-btn');
+            const signInSection = document.getElementById('sign-in-section');
+            const dashboardSection = document.getElementById('dashboard-section');
+
+            signInButton.addEventListener('click', function() {
+                const usernameInput = document.getElementById('username');
+                const passwordInput = document.getElementById('password');
+
+                if (usernameInput.value.trim() === '' || passwordInput.value.trim() === '') {
+                    alert('Please enter both username and password');
+                    return;
+                }
+
+                // Simple sign-in validation
+                if (usernameInput.value.length >= 3 && passwordInput.value.length >= 4) {
+                    signInSection.style.display = 'none';
+                    dashboardSection.style.display = 'block';
+                    
+                    // Request notification permission
+                    if ('Notification' in window) {
+                        Notification.requestPermission();
+                    }
+                } else {
+                    alert('Username must be at least 3 characters and password at least 4 characters');
+                }
+            });
+
+            // Alarm Setting Functionality
+            const setAlarmButton = document.getElementById('set-alarm-btn');
+            const alarmTimeInput = document.getElementById('alarm-time');
+            const alarmStatus = document.getElementById('alarm-status');
+
+            setAlarmButton.addEventListener('click', function() {
+                const alarmTime = alarmTimeInput.value;
+                
+                if (!alarmTime) {
+                    alert('Please select an alarm time');
+                    return;
+                }
+
+                // Set up alarm
+                const [hours, minutes] = alarmTime.split(':');
+                
+                // Clear any existing alarm
+                if (window.alarmInterval) {
+                    clearInterval(window.alarmInterval);
+                }
+
+                // Set new alarm
+                window.alarmInterval = setInterval(() => {
+                    const now = new Date();
+                    if (now.getHours() === parseInt(hours) && now.getMinutes() === parseInt(minutes)) {
+                        // Show morning notification
+                        if (Notification.permission === 'granted') {
+                            new Notification('Good Morning!', {
+                                body: 'Rise and shine! Have a fantastic day! 🌞',
+                            });
+                        }
+
+                        // Play alarm sound
+                        const audio = new Audio('https://www.soundjay.com/misc/sounds/bell-ring-05.mp3');
+                        audio.play();
+
+                        // Clear the interval after triggering
+                        clearInterval(window.alarmInterval);
+                        alarmStatus.textContent = 'Alarm triggered!';
+                    }
+                }, 1000);
+
+                alarmStatus.textContent = `Alarm set for ${alarmTime}`;
+            });
+
+            // Breakfast Reminder (at 11 AM)
+            function setupBreakfastReminder() {
+                setInterval(() => {
+                    const now = new Date();
+                    if (now.getHours() === 11 && now.getMinutes() === 0) {
+                        if (Notification.permission === 'granted') {
+                            new Notification('Breakfast Check', {
+                                body: 'I hope you have had breakfast! 🍳',
+                            });
+                        }
+                    }
+                }, 60000); // Check every minute
+            }
+
+            // Tasks/Reminders Functionality
+            const addTaskButton = document.getElementById('add-task-btn');
+            const taskInput = document.getElementById('task-input');
+            const taskTimeInput = document.getElementById('task-time');
+            const tasksList = document.getElementById('tasks-list');
+
+            addTaskButton.addEventListener('click', function() {
+                const taskText = taskInput.value.trim();
+                const taskTime = taskTimeInput.value;
+
+                if (!taskText || !taskTime) {
+                    alert('Please enter both task and time');
+                    return;
+                }
+
+                // Create task list item
+                const listItem = document.createElement('li');
+                listItem.className = 'bg-gray-100 p-3 rounded-lg flex justify-between items-center';
+                
+                const taskDetails = document.createElement('div');
+                taskDetails.innerHTML = `
+                    <p class="font-medium">${taskText}</p>
+                    <p class="text-sm text-gray-500">${new Date(taskTime).toLocaleString()}</p>
+                `;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = '🗑️';
+                deleteButton.className = 'text-red-500 hover:text-red-700';
+                deleteButton.addEventListener('click', function() {
+                    listItem.remove();
+                });
+
+                listItem.appendChild(taskDetails);
+                listItem.appendChild(deleteButton);
+                tasksList.appendChild(listItem);
+
+                // Set up task reminder
+                const taskDateTime = new Date(taskTime);
+                const now = new Date();
+
+                if (taskDateTime > now) {
+                    const timeDiff = taskDateTime - now;
+                    setTimeout(() => {
+                        if (Notification.permission === 'granted') {
+                            new Notification('Task Reminder', {
+                                body: taskText,
+                            });
+                        }
+                    }, timeDiff);
+                }
+
+                // Clear input fields
+                taskInput.value = '';
+                taskTimeInput.value = '';
+            });
+
+            // Start breakfast reminder
+            setupBreakfastReminder();
+        });
+    </script>
+</body>
+</html>
